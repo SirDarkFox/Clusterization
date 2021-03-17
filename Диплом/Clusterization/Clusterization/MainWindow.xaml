@@ -1,0 +1,35 @@
+﻿<Window x:Class="Clusterization.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:Clusterization"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="930" Width="1400" SizeToContent="Height">
+    <Grid Background="#FF272727" Height="900">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="900"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="Image" Grid.Column="0" Background="Black" Height="900">
+
+        </Canvas>
+        <lvc:CartesianChart Name="ClusterChart" Grid.Column="0" Visibility="Hidden">
+        </lvc:CartesianChart>
+        <Canvas Grid.Column="1">
+            <Border  BorderBrush="White" BorderThickness="3,0,0,0" Height="900" Width="492">
+            </Border>
+            <Border  BorderBrush="White" BorderThickness="0,0,0,3" Height="430" Width="492">
+            </Border>
+            <TextBox x:Name="TestText" IsReadOnly="True" TextAlignment="Center" FontSize="25" BorderBrush="White" Foreground="White" Background="#FF5B5B5B" Style="{DynamicResource SuperTextBox}" Canvas.Left="144" Margin="0" Canvas.Top="20" Height="55" Width="204" />
+            <Button Content="Learn" Click="Learn_Click" FontSize="35" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="84" Canvas.Left="144" Canvas.Top="102"/>
+            <Button Content="Draw" Click="Draw_Click" FontSize="35" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="86" Canvas.Left="144" Canvas.Top="205"/>
+            <Button Content="Reset" Click="Reset_Click" FontSize="35" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="84" Canvas.Left="144" Canvas.Top="313"/>
+            <TextBox x:Name="FileName" IsReadOnly="True" TextAlignment="Center" FontSize="25" BorderBrush="White" Foreground="White" Background="#FF5B5B5B" Style="{DynamicResource SuperTextBox}" Canvas.Left="144" Margin="0" Canvas.Top="460" Height="54" Width="204" />
+            <Button Content="Load" Click="Load_Click" FontSize="35" Foreground="White" Background="Gray" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="84" Canvas.Left="144" Canvas.Top="542"/>
+            <Button Content="Save" Click="Save_Click" FontSize="35" Foreground="White" Background="Gray" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="86" Canvas.Left="144" Canvas.Top="644"/>
+            <Button Content="Test" Click="Test_Click" FontSize="35" Foreground="White" Background="Gray" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="84" Canvas.Left="144" Canvas.Top="752"/>
+        </Canvas>
+    </Grid>
+</Window>

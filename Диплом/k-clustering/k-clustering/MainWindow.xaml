@@ -1,0 +1,31 @@
+﻿<Window x:Class="k_clustering.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:k_clustering"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="930" Width="1400" SizeToContent="Height">
+    <Grid Background="#FF272727" Height="900">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="900"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0" Padding="0">
+            <TextBlock x:Name="Results" Foreground="White" Background="#FF272727" FontSize="25" Grid.Column="0"/>
+        </ScrollViewer>
+
+        <Canvas Grid.Column="1">
+            <Border  BorderBrush="White" BorderThickness="3,0,0,0" Height="900" Width="492">
+            </Border>
+            <Label Content="Number of clusters :" FontSize="35" Canvas.Left="58" Foreground="White" Canvas.Top="47" Style="{DynamicResource SuperLable}" Margin="0" Width="352"/>
+            <TextBox x:Name="ClustersCount" TextAlignment="Center" FontSize="40" BorderBrush="White" Foreground="White" Background="#FF5B5B5B" Style="{DynamicResource SuperTextBox}" Canvas.Left="58" Margin="0" Canvas.Top="113" Height="77" Width="400" />
+            <Label Content="Number of DOCs :" FontSize="35" Canvas.Left="58" Foreground="White" Canvas.Top="262" Style="{DynamicResource SuperLable}" Margin="0" Width="424"/>
+            <TextBox x:Name="DocsCount" IsReadOnly="true" TextAlignment="Center" FontSize="40" BorderBrush="White" Foreground="White" Background="#FF5B5B5B" Style="{DynamicResource SuperTextBox}" Canvas.Left="58" Margin="0" Canvas.Top="328" Height="76" Width="400" />
+            <Button Content="Start" Click="Start_Click" FontSize="65" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Height="100" Canvas.Left="58" Canvas.Top="477"/>
+            <Button Content="Load" Click="Load_Click" FontSize="65" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Height="100" Canvas.Left="58" Canvas.Top="618"/>
+            <Button Content="Reset" Click="Reset_Click" FontSize="65" Foreground="White" Background="#FF53914D" Style="{DynamicResource SuperButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Height="100" Canvas.Left="58" Canvas.Top="754"/>
+        </Canvas>
+    </Grid>
+</Window>
