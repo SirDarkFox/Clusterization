@@ -1,5 +1,8 @@
 ﻿using Clusterization._2DArray;
+using Clusterization.ReportModel;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -55,26 +58,68 @@ namespace Clusterization
 
         public void TrainingAsync()
         {
-                Matrix input = Operations.RandomMatrix(1, 3, (0, 1));
+            Matrix input = Operations.RandomMatrix(1, 3, (0, 1));
 
-                int winner1DPosition = Competition(input);
+            int winner1DPosition = Competition(input);
 
-                Matrix winner2DPosition = new Matrix(1, 2);
-                winner2DPosition[0] = winner1DPosition % Length;
-                winner2DPosition[1] = winner1DPosition / Length;
+            Matrix winner2DPosition = new Matrix(1, 2);
+            winner2DPosition[0] = winner1DPosition % Length;
+            winner2DPosition[1] = winner1DPosition / Length;
 
-                Matrix d = Operations.Sqrt(Operations.ReduceSumByColumns(Operations.Square(Coordinates - winner2DPosition)));
+            Matrix d = Operations.Sqrt(Operations.ReduceSumByColumns(Operations.Square(Coordinates - winner2DPosition)));
 
-                Sigma = (Iteration > 1000) ? MinSigma : DefaultSigma * Math.Exp(-Iteration / Tay1);
+            Sigma = (Iteration > 1000) ? MinSigma : DefaultSigma * Math.Exp(-Iteration / Tay1);
 
-                Matrix h = Operations.Exp(-Operations.Square(d) / (2 * Math.Pow(Sigma, 2)));
+            Matrix h = Operations.Exp(-Operations.Square(d) / (2 * Math.Pow(Sigma, 2)));
 
-                LearningRate = DefaultLearningRate * Math.Exp(-Iteration / Tay2);
-                LearningRate = (LearningRate < MinLearningRate) ? MinLearningRate : LearningRate;
+            LearningRate = DefaultLearningRate * Math.Exp(-Iteration / Tay2);
+            LearningRate = (LearningRate < MinLearningRate) ? MinLearningRate : LearningRate;
 
-                Matrix delta = Operations.Transpose(LearningRate * h * Operations.Transpose(input - Weights));
-                Weights += delta;
-                Iteration++;
+            Matrix delta = Operations.Transpose(LearningRate * h * Operations.Transpose(input - Weights));
+            Weights += delta;
+            Iteration++;
+        }
+
+        public void TrainingParallel(int defaultTestCount, IProgress<ParallelReport> progress)
+        {
+            object lockObject = new object();
+            int tempIter = 0;
+            Parallel.For(0, defaultTestCount, i =>
+             {
+                 Matrix input = Operations.RandomMatrix(1, 3, (0, 1));
+
+                 int winner1DPosition = Competition(input);
+
+                 Matrix winner2DPosition = new Matrix(1, 2);
+                 winner2DPosition[0] = winner1DPosition % Length;
+                 winner2DPosition[1] = winner1DPosition / Length;
+
+                 Matrix d = Operations.Sqrt(Operations.ReduceSumByColumns(Operations.Square(Coordinates - winner2DPosition)));
+
+                 Sigma = (Iteration > 1000) ? MinSigma : DefaultSigma * Math.Exp(-Iteration / Tay1);
+
+                 Matrix h = Operations.Exp(-Operations.Square(d) / (2 * Math.Pow(Sigma, 2)));
+
+                 LearningRate = DefaultLearningRate * Math.Exp(-Iteration / Tay2);
+                 LearningRate = (LearningRate < MinLearningRate) ? MinLearningRate : LearningRate;
+
+                 Matrix delta = Operations.Transpose(LearningRate * h * Operations.Transpose(input - Weights));
+
+                 Weights += delta;
+
+                 Interlocked.Add(ref tempIter, 1);
+
+                 //var parallelReport = new ParallelReport();
+                 //parallelReport.TestCount = tempIter;
+
+                 //if (tempIter % 1000 == 0)
+                 //{
+                 //    parallelReport.Weights = Weights.Clone();
+                 //}
+
+                 //progress.Report(parallelReport);
+             });
+            Iteration = defaultTestCount;
         }
     }
 }
